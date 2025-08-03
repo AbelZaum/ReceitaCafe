@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Membro - Curso de Receitas de Café da Manhã</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="Cafe.png" type="image/x-icon">
+    <style>
+        /* ====================================================================
+        // THEME: NEOBRUTALISMO VIBRANTE
+        // Autor: Gemini
+        // Descrição: Um redesign ousado com bordas fortes, sombras sólidas
+        // e uma paleta de cores energética para um visual moderno.
+        ====================================================================
+        */
+
+        html { 
+            scroll-behavior: smooth; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fef3c7; /* Amarelo bem claro, cor de baunilha */
+            color: #1e293b;
+            overflow-x: hidden;
+            border: 10px solid #1e293b; /* Borda sólida na página inteira */
+        }
+
+        /* Estilos de Componentes (Neobrutalismo) */
+        .card-base {
+            background-color: white;
+            border: 3px solid #1e293b;
+            border-radius: 1rem;
+            box-shadow: 6px 6px 0px #1e293b;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .card-base:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px #1e293b;
+        }
+
+        .btn-base {
+            border: 3px solid #1e293b;
+            border-radius: 0.75rem; /* Menos arredondado */
+            font-weight: 800; /* Mais peso na fonte */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 4px 4px 0px #1e293b;
+            transition: all 0.2s ease-in-out;
+            transform-style: preserve-3d;
+        }
+
+        .btn-base:hover {
+            transform: translate(-3px, -3px) scale(1.02);
+            box-shadow: 7px 7px 0px #1e293b;
+        }
+
+        .btn-base:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #1e293b;
+        }
+        
+        /* Cores dos Botões */
+        .btn-orange { background-color: #f97316; color: white; }
+        .btn-green { background-color: #22c55e; color: white; }
+        .btn-purple { background-color: #a855f7; color: white; }
+        .btn-blue { background-color: #3b82f6; color: white; }
+        .btn-red { background-color: #ef4444; color: white; }
+        .btn-teal { background-color: #14b8a6; color: white; }
+        .btn-completed { background-color: #16a34a; color: white; }
+
+
+        /* Títulos e Textos */
+        .main-title {
+            font-weight: 900;
+            color: #1e293b;
+            text-shadow: 3px 3px 0px #fb923c; /* Sombra de texto para destaque */
+        }
+
+        /* Animação de Entrada */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        /* PIX Card */
+        .pix-card {
+            background-color: #22c55e;
+            color: white;
+            cursor: pointer;
+        }
+        .pix-card:hover {
+            box-shadow: 10px 10px 0px #15803d; /* Sombra mais escura no hover */
+        }
+
+        /* Menu Mobile */
+        .mobile-nav {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 3rem);
+            max-width: 400px;
+            background: white;
+            border: 3px solid #1e293b;
+            border-radius: 9999px;
+            box-shadow: 0 6px 0px #1e293b;
+            padding: 0.5rem;
+            z-index: 1000;
+            display: flex;
+        }
+        .nav-link {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #4b5563;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.5rem;
+            transition: all 0.2s ease;
+            border-radius: 9999px;
+            flex-grow: 1;
+            text-decoration: none;
+        }
+        .nav-link i { font-size: 1.25rem; margin-bottom: 0.25rem; }
+        .nav-link.active {
+            color: #f97316;
+            background-color: #fff7ed;
+        }
+        .nav-link:hover {
+            transform: translateY(-3px);
+        }
+        @media (min-width: 768px) { .mobile-nav { display: none; } }
+
+        /* Estilos das Páginas */
+        .page-bg { background-color: #fef3c7; }
+        .progress-card { padding: 1.5rem; }
+        .lesson-card { padding: 1.5rem; }
+        
+        .progress-bar-bg {
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+            height: 1rem; /* Barra mais grossa */
+            border: 2px solid #1e293b;
+        }
+        .progress-bar-fill {
+            background: #f97316;
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .lesson-checkbox {
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+            width: 1.75rem; height: 1.75rem;
+            border: 3px solid #1e293b;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            box-shadow: 2px 2px 0px #1e293b;
+        }
+        .lesson-checkbox:checked {
+            background-color: #f97316;
+            border-color: #1e293b;
+        }
+        .lesson-checkbox:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px #1e293b;
+        }
+        .lesson-checkbox:checked::after {
+            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            color: white;
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1rem;
+        }
+
+        /* Seção Bônus */
+        .bonus-section {
+            background-color: #1e293b; /* Fundo escuro sólido */
+            border-top: 5px solid #f97316;
+            border-bottom: 5px solid #f97316;
+        }
+        .bonus-headline {
+            color: #fef3c7; /* Cor do fundo da página */
+            text-shadow: 4px 4px 0px #f97316;
+        }
+        .bonus-card {
+            background-color: #fff;
+            border: 3px solid #1e293b;
+            border-radius: 1rem;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+        .bonus-card:hover {
+            transform: translateY(-8px) scale(1.03) rotate(-2deg);
+            box-shadow: 12px 12px 0px #f97316;
+        }
+        .bonus-card .icon {
+            font-size: 3rem;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .bonus-card:hover .icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        /* Módulo de PDF */
+         .module-lessons-list a {
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 1rem; margin-bottom: 0.75rem; 
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 600;
+         }
+        .module-lessons-list a.active-lesson { 
+            background-color: #fff7ed; 
+            border: 3px solid #fb923c;
+            box-shadow: 4px 4px 0px #fb923c;
+        }
+
+    </style>
+</head>
+<body class="pb-32 md:pb-0">
+
+    <div id="app-container"></div>
+
+    <nav class="mobile-nav">
+        <a onclick="showView('inicio')" class="nav-link"><i class="fa-solid fa-house"></i><span>Início</span></a>
+        <a onclick="showView('modulos')" class="nav-link"><i class="fa-solid fa-layer-group"></i><span>Módulos</span></a>
+        <a onclick="showView('progresso')" class="nav-link"><i class="fa-solid fa-chart-line"></i><span>Progresso</span></a>
+    </nav>
+
+    <script>
+    // =================================================================
+    // BANCO DE DADOS E ESTADO DO CURSO
+    // =================================================================
+    let courseData;
+
+    const initialCourseData = [
+        { id: 'sobremesas', title: '200 SOBREMESAS ZERO AÇÚCAR, GLÚTEN E LACTOSE', icon: 'fa-solid fa-birthday-cake', btnClass: 'btn-orange', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/1tfOa2-6b0FeEYImZlh8HbVwy76-mDFQa?usp=sharing', completed: false },
+        { id: 'lowcarb', title: '411 RECEITAS LOW CARB', icon: 'fa-solid fa-leaf', btnClass: 'btn-green', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/1-FDlgdbk2NZvccQ-Le_gpWvVLTeTxLdr?usp=sharing', completed: false },
+        { id: 'airfryer', title: 'AIRFRYER PROTEICA SEM GLUTEN', icon: 'fa-solid fa-fire', btnClass: 'btn-red', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/1FuJB3FAYZo0RHc6iuPub47Z3cu8Ql9UJ?usp=sharing', completed: false },
+        { id: 'bolos', title: 'BOLOS SEM AÇÚCAR', icon: 'fa-solid fa-cake-candles', btnClass: 'btn-purple', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/16DGpisg2cJJi9MzrY5gHKIhZiPFv4_v2?usp=sharing', completed: false },
+        { id: 'cafe-nutri', title: 'CAFÉ DA MANHÃ DE NUTRI - 200 RECEITAS', icon: 'fa-solid fa-mug-saucer', btnClass: 'btn-orange', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/1JJMr6KSyBgQQbOTFgVkvA5M6uzLa7oj1?usp=sharing', completed: false },
+        { id: 'chas', title: 'CHÁS FUNCIONAIS', icon: 'fa-solid fa-seedling', btnClass: 'btn-teal', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/17PlJiLrxAz5OR5wL1-HBspE_0KBfnXD9?usp=sharing', completed: false },
+        { id: 'marmitas', title: 'MARMITAS FIT PARA CONGELAR', icon: 'fa-solid fa-box', btnClass: 'btn-purple', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/1jAuEv-MEVsw6FpI0mQfqr6TtyWw8iFGy?usp=sharing', completed: false },
+        { id: 'paes', title: 'PÃES SEM GLÚTEN', icon: 'fa-solid fa-bread-slice', btnClass: 'btn-red', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/1CRTMHhkbYCRXJ79LbxjC6ZlWR1ZPoYk-?usp=sharing', completed: false },
+        { id: 'saladas', title: 'SALADAS E MOLHOS', icon: 'fa-solid fa-bowl-food', btnClass: 'btn-green', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/1LpbNK2SpJ7KACzxT1Ow5N-op5U_FNm2m?usp=sharing', completed: false },
+        { id: 'sucos', title: 'SUCOS DETOX', icon: 'fa-solid fa-glass-water', btnClass: 'btn-teal', type: 'pdf', pdfUrl: 'https://drive.google.com/drive/folders/1mjaMLiVEFkLbzpr5uN8HUTHVtmMg_OK9?usp=sharing', completed: false }
+    ];
+    
+    // =================================================================
+    // LÓGICA DE CONTROLE
+    // =================================================================
+
+    function updateProgress() {
+        courseData.forEach(module => {
+            module.percentage = module.completed ? 100 : 0;
+            module.status = module.completed ? 'Concluído' : 'Não Iniciado';
+        });
+    }
+
+    function togglePdfModuleStatus(moduleId) {
+        const module = courseData.find(m => m.id === moduleId);
+        if (module && module.type === 'pdf') {
+            module.completed = !module.completed;
+            localStorage.setItem('recipesCourseProgress', JSON.stringify(courseData));
+            updateProgress();
+            showView('pdf', moduleId);
+        }
+    }
+
+    function copyPixToClipboard() {
+        const pixKey = '47996098547'; // Chave PIX corrigida
+        const showToast = (message) => {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.className = 'fixed bottom-24 md:bottom-8 right-8 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg font-bold z-50';
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        navigator.clipboard.writeText(pixKey).then(() => {
+            showToast('Chave PIX copiada!');
+        }).catch(() => {
+            const textArea = document.createElement('textarea');
+            textArea.value = pixKey;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast('Chave PIX copiada!');
+            } catch (err) {
+                showToast('Falha ao copiar.');
+            }
+            document.body.removeChild(textArea);
+        });
+    }
+
+    // =================================================================
+    // RENDERIZAÇÃO DAS VIEWS
+    // =================================================================
+    const appContainer = document.getElementById('app-container');
+
+    function renderInicioView() {
+        let totalItems = courseData.length;
+        let completedItems = courseData.filter(m => m.completed).length;
+        const overallPercentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+
+        const modulesHtml = courseData.map(module => {
+            const buttonText = 'Acessar Receitas';
+            const buttonIcon = 'fa-solid fa-arrow-right';
+            const action = `showView('pdf', '${module.id}')`;
+
+            return `<div class="card-base p-6 flex flex-col reveal">
+                        <div class="flex items-center mb-4">
+                            <div class="w-16 h-16 rounded-lg ${module.btnClass} flex items-center justify-center mr-4 border-2 border-slate-900">
+                                <i class="${module.icon} text-3xl text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-black text-xl leading-tight">${module.title}</h3>
+                                <p class="text-sm font-bold text-slate-500">Receitas em PDF</p>
+                            </div>
+                        </div>
+                        <p class="flex-grow mb-6 text-slate-600">Explore dezenas de receitas práticas e deliciosas neste módulo exclusivo.</p>
+                        <button onclick="${action}" class="btn-base ${module.btnClass} font-bold py-3 px-4 rounded-lg w-full mt-auto">
+                            ${buttonText} <i class="${buttonIcon} ml-2"></i>
+                        </button>
+                    </div>`;
+        }).join('');
+
+        return `
+            <div id="view-inicio">
+                <header class="text-center py-16 px-4">
+                    <h1 class="text-5xl md:text-7xl main-title reveal">Receitas para uma Vida Saudável</h1>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600 font-medium reveal">O seu guia definitivo para um café da manhã delicioso, nutritivo e sem complicações.</p>
+                    <div onclick="copyPixToClipboard()" class="mt-8 card-base pix-card p-4 max-w-sm mx-auto reveal">
+                        <p class="font-bold text-white text-lg"><i class="fa-solid fa-copy mr-2"></i>PIX OFICIAL - CLIQUE P/ COPIAR</p>
+                        <p class="font-mono text-white text-2xl tracking-wider mt-1">47 99609-8547</p>
+                        <p class="text-green-100 text-sm mt-1 font-semibold">João Vitor Alves Marques</p>
+                    </div>
+                </header>
+
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 my-12 reveal">
+                    <h2 class="text-3xl font-black text-center mb-4 text-slate-800">Seu Progresso Atual</h2>
+                    <div class="card-base progress-card bg-white">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-slate-600 uppercase">Progresso Total</span>
+                            <span class="text-lg font-black text-orange-500">${overallPercentage}%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width: ${overallPercentage}%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <main class="container mx-auto px-4 py-8">
+                    <section id="modulos">
+                        <h2 class="text-4xl font-black text-center mb-12 text-slate-800 reveal">Módulos de Receitas</h2>
+                        <div class="grid md:grid-cols-2 gap-x-8 gap-y-10">${modulesHtml}</div>
+                    </section>
+                    
+                    <section class="bonus-section mt-24 py-20 reveal">
+                        <div class="container mx-auto px-4">
+                            <h2 class="text-5xl md:text-6xl font-black text-center mb-16 bonus-headline">
+                                <i class="fa-solid fa-gift mr-3"></i>BÔNUS EXCLUSIVOS
+                            </h2>
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                                <div class="bonus-card p-6 text-center flex flex-col justify-between">
+                                    <i class="icon fa-solid fa-mug-hot text-orange-500 mx-auto mb-5"></i>
+                                    <h3 class="font-black text-xl mb-4 text-gray-800">200 Receitas Café da Manhã</h3>
+                                    <a href="https://drive.google.com/drive/folders/17JVuPwmGNwQU2RTd90qfmPrvoNU6B58h" target="_blank" class="btn-base btn-orange mt-auto py-3 px-6 no-underline">Acessar</a>
+                                </div>
+                                <div class="bonus-card p-6 text-center flex flex-col justify-between">
+                                    <i class="icon fa-solid fa-wheat-awn-circle-exclamation text-green-500 mx-auto mb-5"></i>
+                                    <h3 class="font-black text-xl mb-4 text-gray-800">Receitas sem Glúten</h3>
+                                    <a href="https://drive.google.com/drive/folders/1gdl7QFhxWftBiAYdoyqGle5QA6Dy_4x_" target="_blank" class="btn-base btn-green mt-auto py-3 px-6 no-underline">Acessar</a>
+                                </div>
+                                <div class="bonus-card p-6 text-center flex flex-col justify-between">
+                                    <i class="icon fa-solid fa-carrot text-blue-500 mx-auto mb-5"></i>
+                                    <h3 class="font-black text-xl mb-4 text-gray-800">Receitas Low Carb</h3>
+                                    <a href="https://drive.google.com/drive/folders/1asF5SAlDuzdK43VuR7C_VpIfAJswTVkl" target="_blank" class="btn-base btn-blue mt-auto py-3 px-6 no-underline">Acessar</a>
+                                </div>
+                                <div class="bonus-card p-6 text-center flex flex-col justify-between">
+                                    <i class="icon fa-solid fa-video text-red-500 mx-auto mb-5"></i>
+                                    <h3 class="font-black text-xl mb-4 text-gray-800">Receitas em Vídeo</h3>
+                                    <a href="https://drive.google.com/drive/folders/1i50HadTha7MEDCDP-dguw0GasiNAPJKp" target="_blank" class="btn-base btn-red mt-auto py-3 px-6 no-underline">Acessar</a>
+                                </div>
+                                <div class="bonus-card p-6 text-center flex flex-col justify-between">
+                                    <i class="icon fa-solid fa-candy-cane text-purple-500 mx-auto mb-5"></i>
+                                    <h3 class="font-black text-xl mb-4 text-gray-800">+ 200 Receitas 0 Açúcar</h3>
+                                    <a href="https://drive.google.com/drive/folders/1gLvFDQDlz7-Tcx_hUer9tvPMb5EyliBg" target="_blank" class="btn-base btn-purple mt-auto py-3 px-6 no-underline">Acessar</a>
+                                </div>
+                                <div class="bonus-card p-6 text-center flex flex-col justify-between">
+                                    <i class="icon fa-solid fa-glass-water text-teal-500 mx-auto mb-5"></i>
+                                    <h3 class="font-black text-xl mb-4 text-gray-800">Chás e Sucos</h3>
+                                    <a href="https://drive.google.com/drive/folders/1W3Hj4lYn2ZO3BBgse26g41-v-rNM_e_W" target="_blank" class="btn-base btn-teal mt-auto py-3 px-6 no-underline">Acessar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="mt-24 max-w-2xl mx-auto reveal">
+                        <div class="bg-red-500 border-4 border-slate-900 text-white p-6 rounded-2xl shadow-lg">
+                            <p class="font-black text-2xl text-center text-shadow">
+                                <i class="fa-solid fa-triangle-exclamation mr-2"></i>ATENÇÃO!
+                            </p>
+                            <p class="mt-2 text-center font-semibold">SÓ REALIZE O PAGAMENTO EM NOSSO PIX OFICIAL</p>
+                            <div class="mt-4 text-center bg-white text-slate-900 p-4 rounded-lg border-2 border-slate-900">
+                                <p class="font-semibold">NOME: <span class="font-bold">João Vitor Alves Marques</span></p>
+                                <p class="font-semibold mt-2">CHAVE PIX: <span class="font-bold">47 99609-8547</span></p>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+                <footer class="bg-slate-900 text-white text-center p-8 mt-20">
+                    <p class="font-bold">&copy; 2025 Receitas de Café da Manhã. Todos os direitos reservados.</p>
+                    <p class="mt-2 text-slate-400">Transforme seu café da manhã em uma refeição nutritiva e deliciosa.</p>
+                </footer>
+            </div>`;
+    }
+
+    function renderModulosView() { return renderInicioView(); }
+
+    function renderPdfView(moduleId) {
+        const module = courseData.find(m => m.id === moduleId);
+        return `
+            <div id="view-pdf" class="page-bg min-h-screen">
+                <div class="container mx-auto px-4 py-8">
+                    <header class="text-left mb-8 reveal">
+                        <button onclick="showView('inicio')" class="font-bold text-slate-600 hover:text-orange-500 transition-colors mb-4">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> Voltar para Módulos
+                        </button>
+                        <h1 class="text-4xl font-black text-slate-800">${module.title}</h1>
+                    </header>
+                    <div class="card-base text-center bg-white p-8 reveal">
+                        <i class="fa-solid fa-file-pdf text-orange-400 text-7xl mb-4"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">Receitas Prontas para Download</h2>
+                        <p class="text-slate-500 mt-2 mb-6 max-w-md mx-auto">Clique no botão abaixo para abrir o PDF com as receitas em uma nova aba.</p>
+                        <a href="${module.pdfUrl}" target="_blank" class="btn-base btn-orange inline-block py-4 px-10">
+                            <i class="fa-solid fa-download mr-2"></i>Acessar Receitas
+                        </a>
+                    </div>
+                    <div class="mt-8 reveal">
+                         <button onclick="togglePdfModuleStatus('${moduleId}')" class="w-full py-4 text-lg transition-all duration-300 btn-base ${module.completed ? 'btn-completed' : 'btn-orange'}">
+                            ${module.completed ? '<i class="fa-solid fa-check-double mr-2"></i>Receitas Visualizadas!' : '<i class="fa-regular fa-square-check mr-2"></i>Marcar como Visualizado'}
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    function renderProgressoView() {
+        let totalItems = courseData.length;
+        let completedItems = courseData.filter(m => m.completed).length;
+        let modulesCompleted = completedItems;
+        let modulesNotStarted = totalItems - completedItems;
+        const overallPercentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+
+        const moduleProgressHtml = courseData.map(module => `
+            <div class="card-base progress-card reveal">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 rounded-lg flex items-center justify-center ${module.btnClass} border-2 border-slate-900">
+                        <i class="${module.icon} text-3xl text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">${module.title}</h3>
+                        <p class="text-sm text-slate-500 font-semibold">Receitas em PDF</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-sm font-bold text-slate-600">Progresso</span>
+                        <span class="text-sm font-bold text-orange-600">${module.percentage}%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: ${module.percentage}%;"></div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1 font-semibold">${module.completed ? 'Receitas visualizadas' : 'Pendente'}</p>
+                </div>
+            </div>`).join('');
+
+        return `
+            <div id="view-progresso" class="page-bg min-h-screen">
+                <div class="px-4 py-8">
+                    <header class="text-left mb-8">
+                        <h1 class="text-5xl font-black text-slate-800 reveal">Seu Progresso</h1>
+                    </header>
+                    <div class="space-y-8">
+                        <div class="card-base progress-card reveal">
+                            <h2 class="text-xl font-black text-slate-700">Resumo Geral</h2>
+                            <p class="text-sm text-slate-500 mb-4 font-semibold">Acompanhe seu desenvolvimento no curso.</p>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-bold text-slate-600">Progresso Total</span>
+                                <span class="text-sm font-bold text-orange-600">${overallPercentage}%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: ${overallPercentage}%;"></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-x-6 gap-y-4 mt-6 text-center">
+                                <div>
+                                    <p class="text-3xl font-black text-slate-800">${modulesCompleted}</p>
+                                    <p class="text-xs text-slate-500 font-bold uppercase">Concluídos</p>
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-black text-slate-800">${modulesNotStarted}</p>
+                                    <p class="text-xs text-slate-500 font-bold uppercase">Pendentes</p>
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-black text-slate-800">${totalItems}</p>
+                                    <p class="text-xs text-slate-500 font-bold uppercase">Total</p>
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-black text-slate-800">PDF</p>
+                                    <p class="text-xs text-slate-500 font-bold uppercase">Formato</p>
+                                </div>
+                            </div>
+                        </div>
+                        ${moduleProgressHtml}
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    /** Gerenciador de Views: Decide qual "página" mostrar. */
+    function showView(viewId, param1, param2) {
+        let viewHtml = '';
+        if (viewId === 'inicio' || viewId === 'modulos') viewHtml = renderInicioView();
+        else if (viewId === 'progresso') viewHtml = renderProgressoView();
+        else if (viewId === 'pdf') viewHtml = renderPdfView(param1);
+        else viewHtml = '<div>Página não encontrada</div>';
+
+        appContainer.innerHTML = viewHtml;
+        // Adiciona um pequeno delay para garantir que os elementos estejam no DOM antes de animar
+        setTimeout(() => {
+            appContainer.querySelectorAll('.reveal').forEach((el, index) => {
+                // Aplica um delay crescente para cada item, criando um efeito cascata
+                el.style.transitionDelay = `${index * 50}ms`;
+                el.classList.add('visible');
+            });
+        }, 50);
+
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        
+        let activeLinkQuery;
+        if (viewId === 'inicio' || viewId === 'pdf') {
+             activeLinkQuery = `[onclick="showView('inicio')"]`;
+        } else if (viewId === 'modulos') {
+             activeLinkQuery = `[onclick="showView('modulos')"]`;
+        } else if (viewId === 'progresso') {
+             activeLinkQuery = `[onclick="showView('progresso')"]`;
+        }
+        
+        const activeLink = document.querySelector(`.nav-link${activeLinkQuery}`);
+        if(activeLink) activeLink.classList.add('active');
+
+        if (viewId === 'modulos') {
+            setTimeout(() => {
+                const modulosSection = document.getElementById('modulos');
+                if (modulosSection) {
+                    modulosSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        } else {
+            window.scrollTo(0, 0);
+        }
+    }
+
+    // =================================================================
+    // INICIALIZAÇÃO DA APLICAÇÃO
+    // =================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedData = localStorage.getItem('recipesCourseProgress');
+        try {
+            // Verifica se os dados salvos têm a mesma estrutura (número de módulos)
+            const parsedData = JSON.parse(savedData);
+            if (Array.isArray(parsedData) && parsedData.length === initialCourseData.length) {
+                courseData = parsedData;
+            } else {
+                courseData = initialCourseData;
+            }
+        } catch (e) {
+            courseData = initialCourseData;
+        }
+        
+        updateProgress();
+        showView('inicio');
+    });
+    </script>
+    
+    <!-- SCRIPT DE PROTEÇÃO DE CÓDIGO -->
+    <script>
+        // Bloqueia o menu de contexto (botão direito do mouse)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Bloqueia atalhos de teclado para ferramentas de desenvolvedor
+        document.addEventListener('keydown', function(event) {
+            // F12
+            if (event.keyCode === 123) {
+                event.preventDefault();
+            }
+            // Ctrl+Shift+I
+            if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+                event.preventDefault();
+            }
+            // Ctrl+Shift+J
+            if (event.ctrlKey && event.shiftKey && event.key === 'J') {
+                event.preventDefault();
+            }
+            // Ctrl+U
+            if (event.ctrlKey && event.key === 'U') {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
